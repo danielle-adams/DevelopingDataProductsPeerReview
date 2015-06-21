@@ -1,0 +1,91 @@
+---
+title: "Crime Rate in USA(1974)"
+author: "Danielle"
+highlighter: highlight.js
+output: pdf_document
+job: Developing Data Products PeerAssessment
+knit: slidify::knit2slides
+mode: selfcontained
+hitheme: tomorrow
+subtitle: Analysis on USArrests
+framework: io2012
+widgets: bootstrap
+---
+
+## Description on the Dataset
+### USArrests Dataset
+
+> This data set contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973. Also given is the percent of the population living in urban areas.
+
+### Format
+
+**A data frame with 50 observations on 4 variables.**
+
+| Index | Field | Class | Detail |
+------- | ----- | ------ | ------ |
+| [, 1] | Murder | numeric | Murder arrests (per 100,000) |
+| [, 2] | Assault | numeric | Assault arrests (per 100,000) |
+| [, 3] | UrbanPop | numeric | Percent urban population |
+| [, 4]	| Rape | numeric | Rape arrests (per 100,000) |
+
+---
+
+## Description on the Analysis
+### Inputs
+This is a ranking system of crime rates. Users are required to choose the crime type and how many states to show in the plot. 
+For example, the default inputs are **Murder Rate** and **20**. Thus, by default, the bar plot shows 20 states with the highest murder rate. The state with the highest murder rate, **Georgia**, will be ranked first. 
+
+### Raking the Crime Rate
+
+In this part, a bar plot about will be created due to the crime type from the selectInput. And the number from the sliderInput defines how many state to plot. The plot is a ranking of a certain crime rate in severl states. 
+
+### Showing the Crime Rate
+
+According to the USArrests data, a map will be created to show the distribution of a certain type of crime in 48 states. Darker color represents higher crime rate. 
+
+
+
+---
+
+## Main Functions
+
+
+```{r, eval=FALSE}
+## This function takes the two inputs from the user and returns a ranking bar plot
+sortData <- function(crimeName, top = 20){ ...
+        plotData <- head(arrange(crimeData, desc(as.factor(crimeData[,index]))), top) ... 
+        ratePlot <- qplot(x=State, y=plotData[,index],data = plotData, ... )
+        ... return(ratePlot)
+}
+```
+
+
+```{r, eval=FALSE}
+## This function shows the crime rate visually in a map of the United States.
+stateMap <- function(data, crimeName, color){ ... 
+        data <- arrange(data,data[,index])
+        percents <- as.integer(cut(data[,index], 48, include.lowest = TRUE, ordered = TRUE))
+        fills <- colorRampPalette(c(color,"white"))(48)[percents]
+        map("state", as.character(data$State), boundary = TRUE,col = fills ... )
+}
+```
+
+
+--- 
+
+## Deployed App
+
+### Shiny Application
+Source Code: 
+*https://github.com/danielle-adams/DevelopingDataProductsPeerReview/Shiny*
+URL:
+*https://danielle-xwt.shinyapps.io/project*
+### Reproducible Pitch Presentation
+Source Code: 
+
+*https://github.com/danielle-adams/DevelopingDataProductsPeerReview/Slidify/index.html*
+
+### Get the Code from Github
+```
+git clone https://github.com/danielle-adams/DevelopingDataProductsPeerReview.git
+```
